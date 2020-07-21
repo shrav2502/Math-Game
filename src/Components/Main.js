@@ -1,7 +1,7 @@
 import React from "react";
 import Choices from "./Choices";
-import Timer from "./Timer";
-
+import "./style.css";
+import Result from "./Result";
 class Main extends React.Component {
   state = {
     array: [],
@@ -9,7 +9,9 @@ class Main extends React.Component {
     answer: null,
     q1: null,
     q2: null,
+    time: 20,
     showTime: false,
+    enable: true,
   };
 
   generate = (choices) => {
@@ -42,6 +44,7 @@ class Main extends React.Component {
       (1 + Math.round(max * Math.random()))
     );
   };
+
   generateProblem = () => {
     const a = this.generateRandomNumber(9);
     const b = this.generateRandomNumber(9 - a);
@@ -50,8 +53,22 @@ class Main extends React.Component {
       q2: b,
     });
     this.getChoices(a, b);
+  };
+
+  buttonClick = () => {
+    this.stop = setInterval(() => {
+      if (this.state.time <= 1) {
+        clearInterval(this.stop);
+      }
+      this.setState((prevState) => ({
+        time: prevState.time - 1,
+      }));
+    }, 1000);
+
+    this.generateProblem();
     this.setState({
       showTime: true,
+      enable: false,
     });
   };
 
@@ -79,6 +96,14 @@ class Main extends React.Component {
     }
   };
 
+  restartGame = (score, bool, time) => {
+    this.setState({
+      score: score,
+      enable: bool,
+      time: time,
+    });
+  };
+
   render() {
     const one = this.state.array.map((item) => {
       return (
@@ -91,85 +116,58 @@ class Main extends React.Component {
       );
     });
 
-    const containerStyle = {
-      height: "450px",
-      width: "650px",
-      border: "1px solid",
-      margin: "auto",
-      padding: "30px",
-      marginTop: "80px",
-    };
-
-    const flex = {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    };
-
-    const questionStyle = {
-      height: "140px",
-      width: "450px",
-      border: "1px solid",
-      lineHeight: "140px",
-      fontSize: "60px",
-    };
-
-    const answerStyle = {
-      height: "120px",
-      width: "450px",
-      // border: "1px solid",
-    };
-
-    const buttonStyle = {
-      height: "70px",
-      width: "400px",
-      // border: "1px solid",
-      marginTop: "30px",
-    };
-
-    const displayScore = {
-      height: "40px",
-      width: "90px",
-      // border: "1px solid",
-      fontSize: "17px",
-      marginLeft: "-20px",
-      textAlign: "left",
-      lineHeight: "40px",
-    };
-
-    const button = {
-      padding: "5px",
-      height: "50px",
-      width: "100px",
-    };
-
     return (
-      <div style={containerStyle}>
+      <div className="containerStyle">
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
-            border: "1px solid",
           }}
         >
           {this.state.showTime ? (
-            <div style={displayScore}>Score: {this.state.score} </div>
+            <div className="displayScore">Score: {this.state.score} </div>
           ) : null}
-
-          <Timer showTime={this.state.showTime} />
+          {this.state.showTime ? (
+            <div className="displayScore">
+              Remaining time: {this.state.time} secs
+            </div>
+          ) : null}
         </div>
 
-        <div style={flex}>
-          <div style={questionStyle}>
+        <div className="flex">
+          <div className="questionStyle">
             {this.state.q1} X {this.state.q2}
           </div>
-          <h3>Click on the right answer</h3>
-          <div style={answerStyle}>{one}</div>
-          <div style={buttonStyle}>
-            <button onClick={this.generateProblem} style={button}>
-              Start
-            </button>
-          </div>
+
+          <p
+            style={{
+              marginTop: "25px",
+              backgroundColor: "#6654a0",
+              color: "white",
+              padding: "7px",
+              fontSize: "20px",
+            }}
+          >
+            Click on the right answer
+          </p>
+
+          <div className="answerStyle">{one}</div>
+
+          {this.state.enable ? (
+            <div className="buttonStyle">
+              <button onClick={this.buttonClick} className="button">
+                Start the game
+              </button>
+            </div>
+          ) : null}
+
+          {this.state.time <= 0 ? (
+            <Result
+              score={this.state.score}
+              restartGame={this.restartGame}
+              buttonClick={this.buttonClick}
+            />
+          ) : null}
         </div>
       </div>
     );

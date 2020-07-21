@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "reactstrap";
 
 class Choices extends React.Component {
   handleClick = (e) => {
@@ -7,21 +8,11 @@ class Choices extends React.Component {
   };
 
   render() {
-    const buttonStyles = {
-      height: "90px",
-      width: "110px",
-      padding: "5px",
-      borderRadius: "6px",
-      cursor: "pointer",
-      // border: "1px solid #999",
-      fontSize: "20px",
-      marginTop: "10px",
-    };
     return (
       <button
+        className="answerButton"
         onClick={this.handleClick}
         value={this.props.item}
-        style={buttonStyles}
       >
         {this.props.item}
       </button>
