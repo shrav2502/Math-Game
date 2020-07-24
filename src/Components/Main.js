@@ -139,17 +139,7 @@ class Main extends React.Component {
             {this.state.q1} X {this.state.q2}
           </div>
 
-          <p
-            style={{
-              marginTop: "25px",
-              backgroundColor: "#6654a0",
-              color: "white",
-              padding: "7px",
-              fontSize: "20px",
-            }}
-          >
-            Click on the right answer
-          </p>
+          <p className="para">Click on the right answer</p>
 
           <div className="answerStyle">{one}</div>
 

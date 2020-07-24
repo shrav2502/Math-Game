@@ -1,3 +1,7 @@
+body {
+  background-color: LAVENDER;
+}
+
 .containerStyle {
   height: 500px;
   width: 650px;
@@ -40,7 +44,6 @@
 .buttonStyle {
   height: 70px;
   width: 400px;
-  /* margin-top: 10px; */
 }
 
 .displayScore {
@@ -83,4 +86,12 @@
 .button:active {
   box-shadow: 0 5px #9f9f9f;
   transform: translateY(2px);
+}
+
+.para {
+  margin-top: 25px;
+  background-color: #6654a0;
+  color: white;
+  padding: 7px;
+  font-size: 20px;
 }

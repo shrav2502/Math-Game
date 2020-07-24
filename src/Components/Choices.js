@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "reactstrap";
 
 class Choices extends React.Component {
   handleClick = (e) => {
